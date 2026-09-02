@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function admin() { return signedIn() && request.auth.token.admin == true; }
+    match /users/{userId} { allow read: if signedIn() && (request.auth.uid == userId || admin()); allow write: if false; }
+    match /certificates/{certificateId} { allow read, write: if false; }
+    match /activity/{activityId} { allow read: if admin(); allow write: if false; }
+  }
+}
