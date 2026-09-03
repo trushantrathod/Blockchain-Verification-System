@@ -15,7 +15,24 @@ const short = (value: string) => value ? `${value.slice(0, 8)}…${value.slice(-
 const secureId = () => `CERT-${crypto.getRandomValues(new Uint32Array(3)).reduce((value, part) => value + part.toString(36), "").toUpperCase()}`;
 const copy = (text: string) => navigator.clipboard.writeText(text);
 
-function Shell({ children }: { children: React.ReactNode }) { return <><header><Link className="brand" to="/"><span>◇</span> Certificate Verification</Link><nav><Link to="/verify">Verify</Link><Link to="/about">About</Link><Link to="/portal">Workspace</Link></nav></header>{children}<footer>© 2026 Certificate Verification. All rights reserved by Trushant Rathod.</footer></>; }
+function Shell({ children }: { children: React.ReactNode }) {
+  return <><header>
+    <Link className="brand" to="/"><span>◇</span><b>Certificate Verification</b></Link>
+    <nav className="desktop-nav" aria-label="Primary navigation">
+      <Link to="/verify">Verify</Link>
+      <Link to="/about">About</Link>
+      <Link to="/portal">Workspace</Link>
+    </nav>
+    <details className="mobile-nav">
+      <summary aria-label="Open navigation"><span></span><span></span><span></span></summary>
+      <nav aria-label="Mobile navigation">
+        <Link to="/verify">Verify</Link>
+        <Link to="/about">About</Link>
+        <Link to="/portal">Workspace</Link>
+      </nav>
+    </details>
+  </header>{children}<footer>© 2026 Certificate Verification. All rights reserved by Trushant Rathod.</footer></>;
+}
 function NoticeBox({ notice }: { notice: Notice }) { return notice ? <p className={`notice ${notice.kind}`}>{notice.text}</p> : null; }
 function Loading({ label = "Checking the registry…" }: { label?: string }) { return <div className="loading"><i />{label}</div>; }
 
@@ -64,9 +81,25 @@ function LoginPage() {
       window.setTimeout(() => navigate("/portal"), 300);
     } catch (error) {
       const message = error instanceof Error ? error.message : "";
+
+      const friendly =
+        /auth\/invalid-credential|auth\/wrong-password|auth\/invalid-login-credentials/i.test(message)
+          ? "Wrong email or password. Please check your details and try again."
+          : /auth\/user-not-found/i.test(message)
+          ? "Wrong email or password. Please check your details and try again."
+          : /auth\/invalid-email/i.test(message)
+          ? "Please enter a valid email address."
+          : /auth\/too-many-requests/i.test(message)
+          ? "Too many login attempts. Please wait a moment and try again."
+          : /auth\/user-disabled/i.test(message)
+          ? "This account has been disabled. Please contact the administrator."
+          : /auth\/network-request-failed/i.test(message)
+          ? "Unable to connect. Please check your internet connection and try again."
+          : "Wrong email or password. Please check your details and try again.";
+
       setNotice({
         kind: "error",
-        text: message || "We couldn't sign you in. Please try again.",
+        text: friendly,
       });
     } finally {
       setBusy(false);
