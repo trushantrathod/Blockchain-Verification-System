@@ -389,6 +389,16 @@ function AboutPage() {
             <strong>Trushant Rathod</strong>
             <small>Contact the owner directly to request admin access.</small>
           </div>
+
+          <p className="github-project-link">
+            <a
+              href="https://github.com/trushantrathod/Blockchain-Verification-System"
+              target="_blank"
+              rel="noreferrer"
+            >
+              GitHub ↗
+            </a>
+          </p>
         </article>
       </section>
     </main>

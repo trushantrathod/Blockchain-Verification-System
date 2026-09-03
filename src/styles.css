@@ -814,3 +814,21 @@ button,a,input,textarea{touch-action:manipulation}
 /* Safer text wrapping on narrow screens */
 *,*::before,*::after{min-width:0}
 .nav a, .auth-copy, .auth-form-side, .about-card, .panel, .result, .notice{overflow-wrap:anywhere}
+
+.github-project-link {
+  margin: 16px 0 0;
+}
+
+.github-project-link a {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity .2s, color .2s;
+}
+
+.github-project-link a:hover {
+  color: var(--text);
+  opacity: .9;
+}
