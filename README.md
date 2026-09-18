@@ -615,12 +615,5 @@ The application focuses on:
 
 **Trushant Rathod**
 
-Administrator access is restricted to authorized accounts.
-
 ---
 
-## 📄 License
-
-This project currently does not declare an open-source license.
-
-Add an explicit `LICENSE` file before publishing the repository as an open-source project if you want others to have legally defined reuse permissions.
